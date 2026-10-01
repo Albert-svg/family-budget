@@ -187,7 +187,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 /* pocket money */
 .pocket{margin-top:6px;padding-top:8px;border-top:1px dashed var(--line);display:grid;gap:8px}
 .pocket-h{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
-.pocket-row{display:grid;grid-template-columns:1fr 140px;gap:10px;align-items:center}
+.pocket-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
 .pocket-row input{text-align:right;font-family:var(--mono)}
 
 /* budget balance */
@@ -204,3 +204,6 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .balrow>span:first-child{flex:1;min-width:0}
 .balrow .bal,.balance-box .bal{flex:0 1 auto;max-width:55%;white-space:normal;text-align:center;line-height:1.3}
 .balance-box>div{flex:1;min-width:0}
+.pocket-row b{text-align:right}
+.share-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.share-row input{width:100%;accent-color:var(--acc)}
