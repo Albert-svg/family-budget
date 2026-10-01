@@ -1,5 +1,5 @@
 /* Family Budget service worker: app shell offline. API calls always go to the network. */
-const VERSION = "budget-v1";
+const VERSION = "budget-v4";
 const SHELL = ["/", "/index.html", "/app.css", "/app.js", "/manifest.webmanifest",
   "/icons/icon-192.png?v=1", "/icons/icon-512.png?v=1", "/icons/apple-touch-icon.png?v=1"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).catch(() => {}).then(() => self.skipWaiting())); });

@@ -168,3 +168,39 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .noscript{padding:24px;text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:380px){.fgrid{grid-template-columns:1fr}.cats{grid-template-columns:1fr 1fr}.limit-row{grid-template-columns:auto 1fr 100px}}
+
+/* weekly split */
+.card.weekly h2{display:flex;align-items:center;gap:8px}
+.wkrows{display:grid;gap:8px;margin-top:10px}
+.wkrow{display:grid;gap:6px;width:100%;text-align:left;background:var(--surface2,rgba(127,127,127,.08));border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;color:inherit;cursor:pointer}
+.wkrow.cur{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.wkrow .wk-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.wkrow .wk-h .small{margin-left:auto}
+.wkrow .wk-v{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.wkrow .bar{display:block}
+.wk-edit{display:grid;gap:10px}
+.wkhint{margin:4px 0 0;color:var(--muted)}
+.wkhint:empty{display:none}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;margin:6px 0}
+.check input{width:20px;height:20px;flex:none;accent-color:var(--acc)}
+
+/* pocket money */
+.pocket{margin-top:6px;padding-top:8px;border-top:1px dashed var(--line);display:grid;gap:8px}
+.pocket-h{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+.pocket-row{display:grid;grid-template-columns:1fr 140px;gap:10px;align-items:center}
+.pocket-row input{text-align:right;font-family:var(--mono)}
+
+/* budget balance */
+.bal{display:inline-flex;align-items:center;font-weight:800;font-size:12.5px;padding:5px 10px;border-radius:99px;white-space:nowrap;background:var(--surface2);color:var(--muted)}
+.bal.ok{background:var(--acc-soft);color:var(--acc)}
+.bal.under{background:var(--gold-soft);color:var(--gold)}
+.bal.over{background:var(--bad-soft);color:var(--bad)}
+.bal.big{font-size:14px;padding:7px 12px;white-space:normal;text-align:center}
+.balance-box{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface2)}
+.balance-box.ok{border-color:var(--acc)}.balance-box.under{border-color:var(--gold)}.balance-box.over{border-color:var(--bad)}
+.balance-box .small{color:var(--muted);margin-top:2px}
+.balrow{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.balrow>span:first-child{display:grid;gap:2px}
+.balrow>span:first-child{flex:1;min-width:0}
+.balrow .bal,.balance-box .bal{flex:0 1 auto;max-width:55%;white-space:normal;text-align:center;line-height:1.3}
+.balance-box>div{flex:1;min-width:0}
