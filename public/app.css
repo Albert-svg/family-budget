@@ -207,3 +207,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .pocket-row b{text-align:right}
 .share-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
 .share-row input{width:100%;accent-color:var(--acc)}
+
+/* reset */
+.reset-opts{display:grid;gap:10px;margin:12px 0 16px}
+.reset-opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.reset-opt input{margin-top:3px;accent-color:var(--bad);width:18px;height:18px;flex:none}
+.reset-opt>span{display:grid;gap:4px}
+.reset-opt:has(input:checked){border-color:var(--bad)}

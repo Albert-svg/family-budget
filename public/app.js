@@ -93,9 +93,9 @@ async function sync(){if(syncing){again=true;return}syncing=true;setSync("syncin
   finally{syncing=false;if(again){again=false;queueSync()}}}
 /* one-time (Oct 2026): turn on weekly tracking for Groceries, right after a fresh sync so nothing stale is written */
 function weeklyInit(){if(settings().weeklyInit||!cats().length)return;const g=get("c-groc")||cats().find(c=>/grocer/i.test(c.name));if(g&&g.weekly==null){const{id:_i,...rest}=g;put("cat",g.id,Object.assign(rest,{weekly:true}))}const st=settings();st.weeklyInit=1;saveSettings(st);queueSync()}
-function seed(){if(L.seeded)return;const hasCat=Object.values(L.recs).some(r=>r.kind==="cat");
+function seed(){if(L.seeded)return;const hasCat=Object.values(L.recs).some(r=>r.kind==="cat"&&!r.deleted);
   if(!hasCat)DEFAULT_CATS.forEach((c,i)=>put("cat","c-"+c[0],{name:c[1],group:c[2],limit:0,color:i%COLORS.length,order:i}));
-  if(!L.recs.settings)put("settings","settings",{currency:"Rs",start:1,income:[{name:"Albert: salary",amount:0},{name:"Albert: freelance",amount:0},{name:"Ruth",amount:0}]});
+  if(!get("settings"))put("settings","settings",{currency:"Rs",start:1,income:[{name:"Albert: salary",amount:0},{name:"Albert: freelance",amount:0},{name:"Ruth",amount:0}]});
   L.seeded=true}
 function setSync(s){syncState=s;const p=$("#syncpill");if(!p)return;p.className="syncpill "+s;const n=Object.keys(L.out).length;
   $("span",p).textContent=s==="ok"?"Synced":s==="syncing"?(n?n+" to send":"Syncing"):s==="auth"?"Sign in":s==="forbidden"?"No access":"Offline"+(n?" · "+n:"");renderBanner()}
@@ -211,7 +211,9 @@ V.more=function(){const S=settings(),n=Object.keys(L.out).length;
   <section class="card"><h2>Export</h2><p class="small muted">Download everything as a spreadsheet, or keep a full backup.</p>
     <div class="actions"><button class="btn" data-act="csvall">All transactions (CSV)</button><button class="btn" data-act="backup">Full backup (JSON)</button></div></section>
   <section class="card"><h2>Privacy</h2><p class="small muted">Only the emails on your family list can open this app (Cloudflare Access, one-time code by email). Data is stored in your own Cloudflare D1 database. A copy lives on each phone so it works offline.</p>
-    <div class="actions"><button class="btn danger sm" data-act="forget">Remove local copy from this phone</button></div></section>`};
+    <div class="actions"><button class="btn danger sm" data-act="forget">Remove local copy from this phone</button></div></section>
+  <section class="card"><h2>Reset</h2><p class="small muted">Clear the shared budget and start again. This affects both phones, so agree on it first. A backup downloads automatically before anything is cleared.</p>
+    <div class="actions"><button class="btn danger" data-act="reset">Reset the app…</button></div></section>`};
 
 function connectHTML(){const s=syncState;return`<section class="card connect"><div class="eyebrow">Family Budget</div><h2>${s==="auth"?"Sign in to continue":s==="forbidden"?"No access for this email":s==="syncing"||s==="idle"?"Connecting…":"You're offline"}</h2>
   <p class="small muted">${s==="offline"?"The first sync needs a connection. After that the app also works offline.":s==="auth"?"You'll get a one-time code by email.":""}</p>${s==="auth"?'<button class="btn primary" data-act="signin">Sign in</button>':s==="offline"?'<button class="btn" data-act="syncnow">Try again</button>':""}</section>`}
@@ -288,6 +290,26 @@ function csv(list,name){const q=v=>{v=String(v==null?"":v);return/[",\n]/.test(v
   const rows=[["Date","Type","Amount","Category","Source / goal","Who","Paid by","Note"]].concat(list.sort((a,b)=>a.date.localeCompare(b.date)).map(t=>[t.date,t.type,t.amount,t.type==="expense"?catById(t.cat).name:"",t.type==="income"?t.source:t.type==="save"?(get(t.goal)||{}).name:"",t.who,t.method,t.note]));
   download("﻿"+rows.map(r=>r.map(q).join(",")).join("\r\n"),name,"text/csv")}
 
+/* ---------- reset ---------- */
+const pl=(n,w)=>n+" "+w+(n===1?"":"s");
+function resetCounts(){const n=k=>all(k).length;return{tx:n("tx"),cat:n("cat"),bill:n("bill"),goal:n("goal")}}
+function resetSheet(){const c=resetCounts();
+  openModal(`<div class="card-h"><h2>Reset the app</h2><button class="btn sm ghost" data-act="close">Cancel</button></div>
+  <p class="small muted">Choose what to clear. It's removed from both phones the next time each one syncs.</p>
+  <div class="reset-opts" role="radiogroup" aria-label="What to reset">
+    <label class="reset-opt"><input type="radio" name="rs-mode" value="tx" checked><span><b>Clear transactions only</b><span class="small muted">Removes ${c.tx===1?"the 1 entry":"all "+c.tx+" entries"}: spending, income and money put into goals. Keeps your categories and limits, bills, savings goals and settings. Good for a fresh start with the same plan.</span></span></label>
+    <label class="reset-opt"><input type="radio" name="rs-mode" value="all"><span><b>Start over completely</b><span class="small muted">Removes everything: ${pl(c.tx,"entry").replace("entrys","entries")}, ${c.cat} ${c.cat===1?"category":"categories"}, ${pl(c.bill,"bill")}, ${pl(c.goal,"goal")} and all settings, then restores the default categories, as on day one.</span></span></label>
+  </div>
+  <label class="f"><span>Type <b>RESET</b> to confirm</span><input type="text" id="rs-confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="RESET"></label>
+  <p class="small muted">A full backup (JSON) downloads first, so nothing is lost for good.</p>
+  <div class="actions"><button class="btn danger big" data-act="doreset">Reset now</button></div>`)}
+function doReset(mode){
+  const kinds=mode==="all"?["tx","cat","bill","goal","settings"]:["tx"];
+  Object.values(L.recs).forEach(r=>{if(!r.deleted&&kinds.includes(r.kind))del(r.id)});
+  if(mode==="tx")all("bill").forEach(b=>{if(b.paid&&Object.keys(b.paid).length){const{id:_i,_by,...rest}=b;put("bill",b.id,Object.assign(rest,{paid:{}}))}});
+  if(mode==="all"){L.seeded=false;seed()}
+  saveL();filt={q:"",cat:"",who:"",type:"",wk:""};period=curP();queueSync()}
+
 /* ---------- actions ---------- */
 const val=id=>{const e=document.getElementById(id);return e?e.value:""};
 const A={
@@ -322,6 +344,10 @@ const A={
   csvall(){csv(all("tx"),"budget-all-"+dkey()+".csv")},
   backup(){download(JSON.stringify({exportedAt:new Date().toISOString(),records:Object.values(L.recs)},null,1),"family-budget-backup-"+dkey()+".json","application/json")},
   syncnow(){L.me=null;sync()},
+  reset(){resetSheet()},
+  doreset(){const mode=(document.querySelector('input[name="rs-mode"]:checked')||{}).value;if(!mode)return;
+    if(val("rs-confirm").trim().toUpperCase()!=="RESET"){toast("Type RESET to confirm.");const e=$("#rs-confirm");if(e)e.focus();return}
+    A.backup();doReset(mode);closeModal();go("home");toast(mode==="all"?"Reset complete. Starting fresh.":"Transactions cleared.")},
   signin(){location.assign("/?signin="+Date.now())},
   forget(){if(Object.keys(L.out).length&&!confirm("Some changes haven't uploaded yet and will be lost. Continue?"))return;if(!confirm("Remove the local copy? Your data stays safely in the shared database."))return;localStorage.removeItem(KEY);location.reload()},
   newcat(){catSheet(null)},
