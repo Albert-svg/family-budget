@@ -3,7 +3,8 @@
 Shared household budget for Albert and Ruth. It's a PWA on Cloudflare Pages, with Pages Functions and D1 for sync and Cloudflare Access for sign-in.
 
 ```
-public/            the app (static files)
+public/            the budget app (static files)
+public/home-log/   Home Log (home maintenance + cleaning plan), synced the same way
 functions/api/     sync API + Access JWT check (_middleware.js)
 ```
 
@@ -11,6 +12,7 @@ functions/api/     sync API + Access JWT check (_middleware.js)
 - `GET /api/sync?since=REV`: returns records changed since REV.
 - `POST /api/sync`: pushes changes. Last write wins per record, by modified time.
 - `GET /api/export`: returns a full backup.
+- `GET/POST /api/home/sync`, `GET /api/home/export`: the same for Home Log (separate `home_records` table).
 
 The database table is created automatically on the first request.
 

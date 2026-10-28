@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Home Log</title>
+<meta name="description" content="Home and car maintenance, service history, renewals and reminders.">
+<meta name="theme-color" content="#13161B">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Home Log">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png?v=1" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=1">
+<link rel="apple-touch-startup-image" href="splash/960x2079.png?v=1" media="(device-width: 320px) and (device-height: 693px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1290x2796.png?v=1" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1179x2556.png?v=1" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1284x2778.png?v=1" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1170x2532.png?v=1" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1125x2436.png?v=1" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1242x2688.png?v=1" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/828x1792.png?v=1" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/750x1334.png?v=1" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/1242x2208.png?v=1" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="presets.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="splash" id="splash" role="img" aria-label="Home Log"><svg class="logo" viewBox="0 0 120 120" aria-hidden="true"><path class="h1" d="M22 58 L60 26 L98 58" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path class="h2" d="M32 52 V92 H88 V52" fill="none" stroke-width="10" stroke-linejoin="round"/><circle class="h3" cx="88" cy="88" r="20"/><path class="h4" d="M79 88 l6 6 l12 -13" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="word">Home Log</div>
+  <div class="tag">Maintain · Record · Renew</div>
+</div>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="h1" d="M22 58 L60 26 L98 58" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path class="h2" d="M32 52 V92 H88 V52" fill="none" stroke-width="10" stroke-linejoin="round"/><circle class="h3" cx="88" cy="88" r="20"/><path class="h4" d="M79 88 l6 6 l12 -13" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Home Log</span></div>
+    <div class="hdr-r"><div class="hdr-date" id="hdr-date"></div><button class="sdot" id="sdot" data-tab="more" aria-label="Sync status"></button></div>
+  </header>
+  <main id="view" tabindex="-1"></main>
+</div>
+<nav class="tabs" id="tabs" aria-label="Sections">
+  <button data-tab="due"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M8.5 14.5l2 2 4-4"/></svg>Due</button>
+  <button data-tab="clean"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v7"/><path d="M8 10h8l1.5 4h-11z"/><path d="M6.5 14L5 21M10 14l-.5 7M14 14l.5 7M17.5 14l1.5 7"/></svg>Clean</button>
+  <button data-tab="items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M10 21v-6h4v6"/></svg>Items</button>
+  <button data-tab="log"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg>Log</button>
+  <button data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>More</button>
+</nav>
+<div class="modal" id="modal" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p class="noscript">Home Log needs JavaScript.</p></noscript>
+</body>
+</html>

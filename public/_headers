@@ -14,3 +14,13 @@
   Cache-Control: no-cache
 /index.html
   Cache-Control: no-cache
+/home-log/sw.js
+  Cache-Control: no-cache
+/home-log/app.js
+  Cache-Control: no-cache
+/home-log/app.css
+  Cache-Control: no-cache
+/home-log/presets.js
+  Cache-Control: no-cache
+/home-log/index.html
+  Cache-Control: no-cache
